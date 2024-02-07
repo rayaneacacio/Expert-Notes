@@ -9,7 +9,9 @@ export default {
     BLUE_500: "#475569",
     BLUE_700: "#334155",
     BLUE_900: "#1e293b",
-    BACKGROUND: "#0f172a"
+    BACKGROUND: "#0f172a",
+    
+    GREEN: "#A3E635"
   },
   FONTS: {
     DEFAULT: "'Inter', sans-serif"
