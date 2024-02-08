@@ -18,6 +18,7 @@ export default createGlobalStyle`
     font-family: ${({ theme }) => theme.FONTS.DEFAULT};
     font-size: 1.4rem;
     overflow-x: hidden;
+    scroll-behavior: smooth;
 
     &::-webkit-scrollbar {
       background: transparent;
@@ -45,6 +46,7 @@ export default createGlobalStyle`
 
   button {
     color: ${({ theme }) => theme.COLORS.BLUE};
+    font-size: 1.4rem;
     cursor: pointer;
   }
 

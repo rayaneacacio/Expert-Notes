@@ -11,7 +11,9 @@ export default {
     BLUE_900: "#1e293b",
     BACKGROUND: "#0f172a",
     
-    GREEN: "#A3E635"
+    GREEN: "#A3E635",
+    DARK_GREEN: "#1A2E05",
+    RED: "#F87171"
   },
   FONTS: {
     DEFAULT: "'Inter', sans-serif"
