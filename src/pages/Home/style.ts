@@ -20,27 +20,41 @@ export const Container = styled.div`
 
   .newNote {
     background-color: ${({ theme }) => theme.COLORS.BLUE_700};
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
     line-height: 2.4rem;
-    width: 34.8rem;
     height: 25rem;
     padding: 2rem;
     border-radius: 6px;
-    position: relative;
-    /* flex: 1; */
+
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      box-shadow: 0 0 0 2px ${({ theme }) => theme.COLORS.BLUE_500};
+    } 
+
+    &:focus {
+      box-shadow: 0 0 0 2px ${({ theme }) => theme.COLORS.GREEN};
+    }
+
+    &:focus-visible {
+      outline: 2px solid ${({ theme }) => theme.COLORS.GREEN};
+    }
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   main {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 2.4rem;
-    flex-wrap: wrap;
-
-    > div, button {
-      flex-grow: 1;
-      /* flex: 1; */
-    }
-
-    > :last-child {
-      /* flex-grow: 0.03; */
-    }
   }
 `;

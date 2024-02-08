@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { Container } from "./style"
+import { Dialog } from "../Dialog";
 
 interface NoteCardProps {
   date: Date,
@@ -9,10 +10,21 @@ interface NoteCardProps {
 }
 
 export function NoteCard(props: NoteCardProps) {
+  function handleOpenNote(): void {
+    (document.querySelector(".dialogNoteCard")! as HTMLElement).style.display = "block";
+  }
+
   return (
     <Container>
-      <h2>{ formatDistanceToNow(props.date, { locale: ptBR, addSuffix: true }) }</h2>
-      <p>{ props.content }</p>
+      <button onClick={ handleOpenNote }>
+        <h2>{ formatDistanceToNow(props.date, { locale: ptBR, addSuffix: true }) }</h2>
+        <p>{ props.content }</p>
+      </button>
+
+      <Dialog className="dialogNoteCard" note={{
+        date: props.date,
+        content: props.content
+      }} />
     </Container>
   )
 }

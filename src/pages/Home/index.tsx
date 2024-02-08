@@ -7,6 +7,10 @@ import { Dialog } from "../../components/Dialog";
 import { Container } from "./style";
 
 export function Home() {
+  function handleOpenModalNewNote(): void {
+    (document.querySelector(".dialogNewNote")! as HTMLElement).style.display = "block";
+  }
+
   return (
     <Container>
       <img src={ logoSvg } alt="logo expert notes" />
@@ -16,11 +20,11 @@ export function Home() {
       <div className="border"></div>
 
       <main>
-        <div className="newNote">
-          <button className="buttonIcon"> <img src={ arrowUpRightSvg } alt="" /> </button>
+        <button className="newNote" onClick={ handleOpenModalNewNote }>
+          <div className="buttonIcon"> <img src={ arrowUpRightSvg } alt="" /> </div>
           <h2>Adicionar nota</h2>
           <p>Grave uma nota em áudio que será convertida para texto automaticamente.</p>
-        </div>
+        </button>
 
         <NoteCard date={ new Date() } content="O Drizzle possui um plugin do ESLint para evitar que realizemos updates ou deletes sem where... Para configurar o plugin, é preciso instalar como abaixo:" />
 
@@ -29,10 +33,8 @@ export function Home() {
         <NoteCard date={ new Date() } content="O Drizzle possui um plugin do ESLint para evitar que realizemos updates ou deletes sem where... Para configurar o plugin, é preciso instalar como abaixo:" />
       </main>
 
-      <Dialog note={{
-        date: new Date(),
-        content: "rg3qtgqeth"
-      }} />
+      <Dialog className="dialogNewNote" newNote />
+      <Dialog className="dialogAudioNote" audioNote />
     </Container>
   )
 }

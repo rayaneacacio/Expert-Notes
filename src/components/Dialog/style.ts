@@ -6,6 +6,7 @@ export const Container = styled.dialog`
   height: 100%;
   position: fixed;
   inset: 0;
+  z-index: 2;
 
   h2 {
     color: ${({ theme }) => theme.COLORS.GRAY_100};
@@ -47,8 +48,14 @@ export const Container = styled.dialog`
   }
 `;
 
-export const NewNoteDiv = styled.div`
-  div {
+export const NewNoteDiv = styled.form`
+  height: 100%;
+
+  > div {
+    height: calc(100% - 10rem);
+  }
+
+  > div div {
     display: flex;
     gap: 5px;
     padding-left: 2rem;
@@ -61,6 +68,19 @@ export const NewNoteDiv = styled.div`
       background: none;
       color: ${({ theme }) => theme.COLORS.GREEN};
     }
+  }
+
+  textarea {
+    background: none;
+    color: ${({ theme }) => theme.COLORS.BLUE};
+    font-family: ${({ theme }) => theme.FONTS.DEFAULT};
+    line-height: 2.4rem;
+    width: 100%;
+    height: 100%;
+    padding: 0 2rem;
+    outline: 0;
+    resize: none;
+    display: none;
   }
 
   .lastButton {
