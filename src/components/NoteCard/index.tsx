@@ -2,7 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 import { Container } from "./style"
-import { Dialog } from "../Dialog";
+import { NoteModal } from "../NoteModal";
 
 interface NoteCardProps {
   date: Date,
@@ -21,7 +21,7 @@ export function NoteCard(props: NoteCardProps) {
         <p>{ props.content }</p>
       </button>
 
-      <Dialog className="dialogNoteCard" note={{
+      <NoteModal className="dialogNoteCard" note={{
         date: props.date,
         content: props.content
       }} />
