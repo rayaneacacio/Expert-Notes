@@ -50,4 +50,11 @@ export const Container = styled.dialog`
       animation: recordingAnimation 1s ease infinite;
     }
   }
+
+  @media(max-width: 500px) {
+    .choseAudioOrTextDiv {
+      flex-direction: column;
+      align-items: self-start;
+    }
+  }
 `;

@@ -69,4 +69,25 @@ export const Container = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     gap: 2.4rem;
   }
+
+  @media(max-width: 1000px) {
+    main {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    dialog > div {
+      width: 80%;
+    }
+  }
+
+  @media(max-width: 650px) {
+    main {
+      grid-template-columns: 1fr;
+    }
+
+    dialog > div {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
