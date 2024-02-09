@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
-import theme from './style/theme';
-import GlobalStyles from "./style/global";
+import theme from './styles/theme';
+import GlobalStyles from "./styles/global";
 import { Toaster } from 'sonner';
 import { Home } from './pages/Home';
 

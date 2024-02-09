@@ -31,12 +31,6 @@ export default createGlobalStyle`
     }
   }
 
-  h1 {
-    color: ${({ theme }) => theme.COLORS.BLUE_100};
-    font-size: 3rem;
-    font-weight: 600;
-  }
-
   h2 {
     color: ${({ theme }) => theme.COLORS.WHITE};
     font-size: 1.4rem;
@@ -48,6 +42,10 @@ export default createGlobalStyle`
     color: ${({ theme }) => theme.COLORS.BLUE};
     font-size: 1.4rem;
     cursor: pointer;
+  }
+
+  button, input, textarea {
+    font-family: ${({ theme }) => theme.FONTS.DEFAULT};
   }
 
   button:hover {
@@ -110,6 +108,15 @@ export default createGlobalStyle`
       span {
         color: ${({ theme }) => theme.COLORS.RED};
       }
+    }
+  }
+
+  @keyframes recordingAnimation {
+    to {
+      opacity: 1;
+    }
+    from {
+      opacity: 0.5;
     }
   }
 `;

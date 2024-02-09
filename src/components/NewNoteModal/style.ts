@@ -1,9 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.dialog`
-  height: 100%;
+  form {
+    height: 100%;
+  }
 
-  > div {
+  form > div {
     height: calc(100% - 10rem);
   }
 
@@ -25,23 +27,27 @@ export const Container = styled.dialog`
   textarea {
     background: none;
     color: ${({ theme }) => theme.COLORS.BLUE};
-    font-family: ${({ theme }) => theme.FONTS.DEFAULT};
     line-height: 2.4rem;
     width: 100%;
     height: 100%;
     padding: 0 2rem;
     outline: 0;
     resize: none;
-    display: none;
   }
 
-  .formTextNote .lastButton {
+  .buttonSave {
     background-color: ${({ theme }) => theme.COLORS.GREEN};
     color: ${({ theme }) => theme.COLORS.DARK_GREEN};
     font-weight: 600;
   }
 
   .formAudioNote {
-    display: none;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    img {
+      animation: recordingAnimation 1s ease infinite;
+    }
   }
 `;

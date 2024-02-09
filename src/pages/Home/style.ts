@@ -12,6 +12,18 @@ export const Container = styled.div`
     height: 2.3rem;
   }
 
+  > input {
+    background: none;
+    color: ${({ theme }) => theme.COLORS.GRAY_100};
+    font-size: 3rem;
+    font-weight: 600;
+    outline: 0;
+
+    &::placeholder {
+      color: ${({ theme }) => theme.COLORS.BLUE_100};
+    }
+  }
+
   .border {
     background-color: ${({ theme }) => theme.COLORS.BLUE_700};
     width: 100%;

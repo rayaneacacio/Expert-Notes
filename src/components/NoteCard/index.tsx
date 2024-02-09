@@ -5,8 +5,10 @@ import { Container } from "./style"
 import { NoteModal } from "../NoteModal";
 
 interface NoteCardProps {
+  id: string,
   date: Date,
-  content: string
+  content: string,
+  handleDeleteNote: (id: string) => void,
 }
 
 export function NoteCard(props: NoteCardProps) {
@@ -21,9 +23,10 @@ export function NoteCard(props: NoteCardProps) {
         <p>{ props.content }</p>
       </button>
 
-      <NoteModal className="dialogNoteCard" note={{
+      <NoteModal className="dialogNoteCard" handleDeleteNote={ props.handleDeleteNote } note={{
+        id: props.id,
         date: props.date,
-        content: props.content
+        content: props.content,
       }} />
     </Container>
   )

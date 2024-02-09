@@ -6,13 +6,18 @@ import ellipseSvg from "../../assets/ellipse.svg";
 
 import { Container } from "./style";
 
-interface DialogProps {
+interface NewNoteModalProps {
   className?: string,
   handleNewNote: (content: string) => void,
 }
 
-export function NewNoteModal(props: DialogProps) {
+let speechRecognition: SpeechRecognition | null = null;
+
+export function NewNoteModal(props: NewNoteModalProps) {
+  const [ audioNote, setAudioNote ] = useState(false);
+  const [ textNote, setTextNote ] = useState(false);
   const [ text, setText ] = useState("");
+  const [ isRecording, setIsRecording ] = useState(false);
 
   function handleCloseModal(): void {
     event?.preventDefault();
@@ -21,42 +26,108 @@ export function NewNoteModal(props: DialogProps) {
     });
 
     handleCloseTextarea();
+    handleCloseAudio();
   }
 
   function handleOpenTextarea(): void {
     event?.preventDefault();
-    const textarea: HTMLTextAreaElement = document.querySelector("textarea")!;
-    
-    (document.querySelector(".choseAudioOrTextDiv")! as HTMLElement).style.display = "none";
-
-    textarea.style.display = "block";
-    textarea.focus();
+    setTextNote(true);
   }
 
   function handleCloseTextarea(): void {
     event?.preventDefault();
-    (document.querySelector(".choseAudioOrTextDiv")! as HTMLElement).style.display = "flex";
-    document.querySelector("textarea")!.style.display = "none";
+    setTextNote(false);
   }
 
   function handleOpenNewAudio(): void {
     event?.preventDefault();
-    (document.querySelector(".formTextNote")! as HTMLElement).style.display = "none";
-    (document.querySelector(".formAudioNote")! as HTMLElement).style.display = "block";
+    setAudioNote(true);
+    setIsRecording(true);
+  }
+
+  function handleCloseAudio(): void {
+    event?.preventDefault();
+    setAudioNote(false);
   }
 
   function handleSaveNote(): void {
     event?.preventDefault();
+
+    if(text == "") {
+      return;
+    }
+
     props.handleNewNote(text);
     toast.success("Nota criada com sucesso!");
+    setText("");
+    setTextNote(false);
+    setAudioNote(false);
+    handleCloseModal();
+  }
+
+  function handleStartRecording() {
+    const isSpeechRecognitionAPIAvailable = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
+
+    if(!isSpeechRecognitionAPIAvailable) {
+      alert("Infelizmente seu navegador não suporta a API de gravação :(");
+      return;
+    }
+
+    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    speechRecognition = new SpeechRecognitionAPI();
+    speechRecognition.lang = "pt-BR";
+    speechRecognition.continuous = true;
+    speechRecognition.maxAlternatives = 1;
+    speechRecognition.interimResults = true;
+
+    speechRecognition.onresult = (event) => {
+      const transcription = Array.from(event.results).reduce((text, result) => {
+        return text.concat(result[0].transcript);
+      }, '');
+
+      setText(transcription);
+    }
+
+    speechRecognition.onerror = (event) => {
+      console.error(event);
+    }
+
+    speechRecognition.start();
+  }
+
+  function handleStopRecording() {
+    event?.preventDefault();
+    
+    if(speechRecognition != null) {
+      speechRecognition.stop();
+    }
+
+    setIsRecording(false);
   }
 
   useEffect(() => {
     if(text == "") {
-      handleCloseTextarea();
+      setTextNote(false);
+      setAudioNote(false);
     }
 
   }, [ text ]);
+
+  useEffect(() => {
+    if(textNote) {
+      const textarea: HTMLTextAreaElement = document.querySelector(".formTextNote textarea")!;
+      textarea.focus();
+    }
+
+  }, [ textNote ]);
+
+  useEffect(() => {
+    if(audioNote) {
+      handleStartRecording();
+    }
+
+  }, [ audioNote ]);
 
   return (
     <Container className={props.className}>
@@ -66,34 +137,43 @@ export function NewNoteModal(props: DialogProps) {
         </button>
 
         {
-        <form className="formTextNote" onSubmit={ handleSaveNote }>
-          <h2>Adicionar nota</h2>
+          !audioNote &&
+          <form className="formTextNote" onSubmit={ handleSaveNote }>
+            <h2>Adicionar nota</h2>
 
-          <div>
-            <div className="choseAudioOrTextDiv">
-              <p>Comece</p>
-              <button onClick={ handleOpenNewAudio }>gravando uma nota em áudio</button>
-              <p>ou se preferir</p>
-              <button onClick={ handleOpenTextarea }>utilize apenas texto.</button>
+            <div>
+              {
+                textNote ?
+                <textarea autoFocus onChange={(event) => setText(event.target.value)}></textarea>
+                :
+                <div className="choseAudioOrTextDiv">
+                  <p>Comece</p>
+                  <button onClick={ handleOpenNewAudio }>gravando uma nota em áudio</button>
+                  <p>ou se preferir</p>
+                  <button onClick={ handleOpenTextarea }>utilize apenas texto.</button>
+                </div>
+              }
             </div>
-
-            <textarea autoFocus name="" id="" onChange={(event) => setText(event.target.value)}></textarea>
-          </div>
-
-          <button className="lastButton">Salvar nota</button>
-        </form>
+            <button className="lastButton buttonSave">Salvar nota</button>
+          </form>
         }
 
         {
+          audioNote &&
           <form className="formAudioNote">
-            <h2>Adicionar nota</h2>
-            <p>
-              Testando aqui o microfone enquanto eu gravo essa nova nota para a aplicação
-            </p>
-            <button className="lastButton">
-              <img src={ ellipseSvg } alt="" />
-              <p>Gravando! (clique para interromper)</p>
-            </button>
+            <div>
+              <h2>Adicionar nota</h2>
+              <textarea autoFocus defaultValue={ text }></textarea>
+            </div>
+            {
+              isRecording ?
+              <button className="lastButton" onClick={ handleStopRecording }>
+                <img src={ ellipseSvg } alt="" />
+                <p>Gravando! (clique para interromper)</p>
+              </button>
+              :
+              <button className="lastButton buttonSave" onClick={ handleSaveNote }>Salvar nota</button>
+            }
           </form>
         }
       </div>
